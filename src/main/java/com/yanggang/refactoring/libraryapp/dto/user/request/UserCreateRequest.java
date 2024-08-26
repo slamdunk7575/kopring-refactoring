@@ -1,16 +1,18 @@
 package com.yanggang.refactoring.libraryapp.dto.user.request;
 
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
 public class UserCreateRequest {
 
     private String name;
     private Integer age;
 
-    public String getName() {
-        return name;
+    public UserCreateRequest(String name, Integer age) {
+        this.name = name;
+        this.age = age;
     }
-
-    public Integer getAge() {
-        return age;
-    }
-
 }

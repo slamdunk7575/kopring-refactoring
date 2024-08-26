@@ -1,16 +1,19 @@
 package com.yanggang.refactoring.libraryapp.dto.user.request;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
 public class UserUpdateRequest {
 
     private long id;
     private String name;
 
-    public long getId() {
-        return id;
+    @Builder
+    public UserUpdateRequest(long id, String name) {
+        this.id = id;
+        this.name = name;
     }
-
-    public String getName() {
-        return name;
-    }
-
 }
