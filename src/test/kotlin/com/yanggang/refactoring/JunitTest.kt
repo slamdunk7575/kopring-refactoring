@@ -1,4 +1,4 @@
-package com.yanggang.refactoring.calculator
+package com.yanggang.refactoring
 
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
