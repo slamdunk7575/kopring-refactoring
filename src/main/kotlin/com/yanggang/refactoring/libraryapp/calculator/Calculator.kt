@@ -1,4 +1,4 @@
-package com.yanggang.refactoring.calculator
+package com.yanggang.refactoring.libraryapp.calculator
 
 class Calculator(
     private var _number : Int
