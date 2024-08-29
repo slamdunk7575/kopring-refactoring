@@ -52,7 +52,12 @@ class BookServiceTest @Autowired constructor(
     fun loan_book() {
         // given
         bookRepository.save(Book("코틀린 인 액션"))
-        val savedUser = userRepository.save(User("slamdunk7575", 100))
+        val savedUser = userRepository.save(
+            User(
+                "slamdunk7575",
+                100
+            )
+        )
         val bookLoanRequest = BookLoanRequest("slamdunk7575", "코틀린 인 액션")
 
         // when
@@ -71,7 +76,12 @@ class BookServiceTest @Autowired constructor(
     fun loan_book_exception() {
         // given
         bookRepository.save(Book("코틀린 인 액션"))
-        val savedUser = userRepository.save(User("slamdunk7575", 100))
+        val savedUser = userRepository.save(
+            User(
+                "slamdunk7575",
+                100
+            )
+        )
         userLoanHistoryRepository.save(UserLoanHistory(savedUser, "코틀린 인 액션", false))
         val bookLoanRequest = BookLoanRequest("ABC", "코틀린 인 액션")
 
@@ -87,7 +97,12 @@ class BookServiceTest @Autowired constructor(
     @Test
     fun return_book() {
         // given
-        val savedUser = userRepository.save(User("slamdunk7575", 100))
+        val savedUser = userRepository.save(
+            User(
+                "slamdunk7575",
+                100
+            )
+        )
         userLoanHistoryRepository.save(UserLoanHistory(savedUser, "코틀린 인 액션", false))
         val bookReturnRequest = BookReturnRequest("slamdunk7575", "코틀린 인 액션")
 

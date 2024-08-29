@@ -66,8 +66,17 @@ class UserServiceTest @Autowired constructor(
     @Test
     fun update_user_name() {
         // given
-        val savedUser = userRepository.save(User("A", null))
-        val request = UserUpdateRequest(savedUser.id, "B")
+        val savedUser = userRepository.save(
+            User(
+                "A",
+                null
+            )
+        )
+
+        // 코틀린 User의 id값은 null 이 가능한 Long 타입이고
+        // 자바 UserUpdateRequest의 id는 null 이 불가능한 long 타입임
+        // 해결: 한번 저장이 되고난 이후는 절대 id 가 null 이 될 수 없기 때문에 null 아님 단언 사용!
+        val request = UserUpdateRequest(savedUser.id!!, "B")
 
         // when
         userService.updateUserName(request)
