@@ -8,6 +8,7 @@ import com.yanggang.refactoring.libraryapp.dto.user.response.UserResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,8 @@ public class UserService {
 
     @Transactional
     public void saveUser(UserCreateRequest request) {
-        User newUser = new User(request.getName(), request.getAge());
+        // 자바에서는 코틀린의 Default Parameter 를 인식하지 못함
+        User newUser = new User(request.getName(), request.getAge(), Collections.emptyList(), null);
         userRepository.save(newUser);
     }
 
