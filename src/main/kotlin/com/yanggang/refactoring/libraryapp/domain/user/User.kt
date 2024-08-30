@@ -51,6 +51,13 @@ class User(
 
     val age: Int?,
 
+    /* 코틀린과 JPA 를 함께 사용할때 생각해볼점
+       : 꼭 primary constructor 안에 모든 프로퍼티를 넣어야 할까? 클래스 body 에 넣으면 안될까?
+       -> 모든 프로퍼티를 생성자에 넣거나
+       -> 현재 비지니스 로직상 User 생긴후 UserLoanHistory 가 따로 추가될 수 있기 때문에
+       클래스 body 안에 구분해서 넣을 수 있음 (명확한 기준이 있을때)
+     */
+
     // JAVA 와 차이점: cascade 옵션은 배열 타입(CascadeType[]) 이기 때문에 배열로 적어줌
     // Kotlin 에서는 Collection 을 가변 컬렉션 or 불변 컬렉션 으로 구분
     // 여기서는 데이터를 추가할 수 있기 때문에 가변 컬렉션으로 정의
