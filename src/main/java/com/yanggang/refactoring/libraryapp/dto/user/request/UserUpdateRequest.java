@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor
 public class UserUpdateRequest {
 
@@ -15,5 +14,13 @@ public class UserUpdateRequest {
     public UserUpdateRequest(long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }
