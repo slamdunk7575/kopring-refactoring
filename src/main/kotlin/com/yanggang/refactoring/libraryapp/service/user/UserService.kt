@@ -5,6 +5,8 @@ import com.yanggang.refactoring.libraryapp.domain.user.UserRepository
 import com.yanggang.refactoring.libraryapp.dto.user.request.UserCreateRequest
 import com.yanggang.refactoring.libraryapp.dto.user.request.UserUpdateRequest
 import com.yanggang.refactoring.libraryapp.dto.user.response.UserResponse
+import com.yanggang.refactoring.libraryapp.util.fail
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -35,13 +37,19 @@ class UserService(
 
     @Transactional
     fun updateUserName(request: UserUpdateRequest) {
-        val user = userRepository.findById(request.id).orElseThrow(::IllegalArgumentException)
+         /*
+         Optional<T> findById(ID id); 의 Optional 반환을 제어
+         코틀린의 확장함수 사용 -> Spring은 코틀린과 CurdRepository 를 같이 사용할 것을 대비해서
+         CrudRepositoryExtensions 이라는 확장함수를 미리 만들어놓음
+         */
+        val user = userRepository.findByIdOrNull(request.id) ?: fail()
         user.updateName(request.name)
     }
 
     @Transactional
     fun deleteUser(name: String) {
-        val user = userRepository.findByName(name).orElseThrow(::IllegalArgumentException)
+        // Optional 을 사용하지 않았지만 코틀린의 type 시스템을 이용해서 처리
+        val user = userRepository.findByName(name) ?: fail()
         userRepository.delete(user)
     }
 }
