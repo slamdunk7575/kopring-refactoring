@@ -6,6 +6,7 @@ import com.yanggang.refactoring.libraryapp.dto.user.request.UserCreateRequest
 import com.yanggang.refactoring.libraryapp.dto.user.request.UserUpdateRequest
 import com.yanggang.refactoring.libraryapp.dto.user.response.UserResponse
 import com.yanggang.refactoring.libraryapp.util.fail
+import com.yanggang.refactoring.libraryapp.util.findByIdOrThrow
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -42,7 +43,7 @@ class UserService(
          코틀린의 확장함수 사용 -> Spring은 코틀린과 CurdRepository 를 같이 사용할 것을 대비해서
          CrudRepositoryExtensions 이라는 확장함수를 미리 만들어놓음
          */
-        val user = userRepository.findByIdOrNull(request.id) ?: fail()
+        val user = userRepository.findByIdOrThrow(request.id)
         user.updateName(request.name)
     }
 
