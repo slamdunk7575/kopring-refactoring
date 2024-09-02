@@ -1,10 +1,8 @@
 package com.yanggang.refactoring.libraryapp.dto.book.request;
 
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor
 public class BookReturnRequest {
 
@@ -15,5 +13,13 @@ public class BookReturnRequest {
     public BookReturnRequest(String userName, String bookName) {
         this.userName = userName;
         this.bookName = bookName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getBookName() {
+        return bookName;
     }
 }

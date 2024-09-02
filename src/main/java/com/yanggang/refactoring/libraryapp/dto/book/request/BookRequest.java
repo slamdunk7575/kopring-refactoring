@@ -1,9 +1,7 @@
 package com.yanggang.refactoring.libraryapp.dto.book.request;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor
 public class BookRequest {
 
@@ -11,5 +9,9 @@ public class BookRequest {
 
     public BookRequest(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
