@@ -33,7 +33,7 @@ class UserService(
         return userRepository.findAll()
             // .map { user -> UserResponse(user) }
             // .map { UserResponse(it) }
-            .map(::UserResponse)
+            .map { user -> UserResponse.of(user) }
     }
 
     @Transactional
