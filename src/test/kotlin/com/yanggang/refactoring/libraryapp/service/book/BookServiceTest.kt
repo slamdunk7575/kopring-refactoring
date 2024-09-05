@@ -2,6 +2,7 @@ package com.yanggang.refactoring.libraryapp.service.book
 
 import com.yanggang.refactoring.libraryapp.domain.book.Book
 import com.yanggang.refactoring.libraryapp.domain.book.BookRepository
+import com.yanggang.refactoring.libraryapp.domain.book.BookType
 import com.yanggang.refactoring.libraryapp.domain.user.User
 import com.yanggang.refactoring.libraryapp.domain.user.UserRepository
 import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanHistory
@@ -36,7 +37,7 @@ class BookServiceTest @Autowired constructor(
     @Test
     fun save_book() {
         // given
-        val bookRequest = BookRequest("코틀린 인 액션", "COMPUTER")
+        val bookRequest = BookRequest("코틀린 인 액션", BookType.COMPUTER)
 
         // when
         val savedBook = bookService.saveBook(bookRequest)
@@ -45,7 +46,7 @@ class BookServiceTest @Autowired constructor(
         val books = bookRepository.findAll()
         assertThat(books).hasSize(1)
         assertThat(books[0].name).isEqualTo("코틀린 인 액션")
-        assertThat(books[0].type).isEqualTo("COMPUTER")
+        assertThat(books[0].type).isEqualTo(BookType.COMPUTER)
     }
 
     @DisplayName("책을 대출할 수 있다.")
