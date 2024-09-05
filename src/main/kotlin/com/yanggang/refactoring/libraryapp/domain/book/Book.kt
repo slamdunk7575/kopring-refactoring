@@ -29,8 +29,8 @@ class Book(
 
     (참고) 이런 패턴을 Object Mother 패턴이라고 함
 
-    DTO 에도 이런 Text Fixture 를 만들어 사용할 수 있음
-    Entity 는 테스트에서 사용되는 범위가 넒기 때문에 Text Fixture 를 주로 만들지만
+    DTO 에도 이런 Test Fixture 를 만들어 사용할 수 있음
+    Entity 는 테스트에서 사용되는 범위가 넒기 때문에 Test Fixture 를 주로 만들지만
     DTO 는 해당 API 만 테스트 하는 경우가 많기 때문에 팀과 논의하여 결정하는게 좋음
     */
     companion object {
