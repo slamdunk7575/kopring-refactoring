@@ -2,6 +2,9 @@ package com.yanggang.refactoring.libraryapp.service.user
 
 import com.yanggang.refactoring.libraryapp.domain.user.User
 import com.yanggang.refactoring.libraryapp.domain.user.UserRepository
+import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanHistory
+import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository
+import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanStatus
 import com.yanggang.refactoring.libraryapp.dto.user.request.UserCreateRequest
 import com.yanggang.refactoring.libraryapp.dto.user.request.UserUpdateRequest
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
@@ -14,7 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class UserServiceTest @Autowired constructor(
     private val userRepository: UserRepository,
-    private val userService: UserService
+    private val userService: UserService,
+    private val userLoanHistoryRepository: UserLoanHistoryRepository,
 ) {
 
     @AfterEach
@@ -97,5 +101,49 @@ class UserServiceTest @Autowired constructor(
 
         // then
         assertThat(userRepository.findAll()).isEmpty()
+    }
+
+    @DisplayName("대출 기록이 없는 유저도 응답에 포함된다")
+    @Test
+    fun get_user_empty_loan_histories() {
+        // given
+        userRepository.save(User("yanggang", 100))
+
+        // when
+        val results = userService.getUserLoanHistories()
+
+        // then
+        assertThat(results).hasSize(1)
+        assertThat(results[0].name).isEqualTo("yanggang")
+        assertThat(results[0].books).isEmpty()
+    }
+
+    @DisplayName("대출 기록이 없는 유저도 응답에 포함된다")
+    @Test
+    fun get_user_loan_histories() {
+        // given
+        val savedUser = userRepository.save(User("yanggang", 100))
+        userLoanHistoryRepository.saveAll(listOf(
+            UserLoanHistory.fixture(savedUser, "클린코드1", UserLoanStatus.LOANED),
+            UserLoanHistory.fixture(savedUser, "클린코드2", UserLoanStatus.LOANED),
+            UserLoanHistory.fixture(savedUser, "클린코드3", UserLoanStatus.RETURNED),
+        ))
+
+        // when
+        val results = userService.getUserLoanHistories()
+
+        /*
+        유저가 여러명인 경우 아래처럼 결과를 가져와서 검증할 수도 있음
+        val userResult = results.first { it.name == "yanggang" }
+        */
+
+        // then
+        assertThat(results).hasSize(1)
+        assertThat(results[0].name).isEqualTo("yanggang")
+        assertThat(results[0].books).hasSize(3)
+        assertThat(results[0].books).extracting("name")
+            .containsExactlyInAnyOrder("클린코드1", "클린코드2", "클린코드3")
+        assertThat(results[0].books).extracting("isReturn")
+            .containsExactlyInAnyOrder(false, false, true)
     }
 }
