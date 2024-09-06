@@ -58,17 +58,11 @@ class UserService(
 
     @Transactional(readOnly = true)
     fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
-        return userRepository.findAllWithHistories().map { user ->
-            UserLoanHistoryResponse(
-                name = user.name,
-                books = user.userLoanHistories.map { history ->
-                    BookHistoryResponse(
-                        name = history.bookName,
-                        isReturn = history.status == UserLoanStatus.RETURNED
-                    )
-                }
-            )
-        }
+         /*
+         DTO 생성을 정적 팩토리 메소드 활용하여 리팩토링
+         Service 레이어는 트랜잭션 관리, Repository 통한 도메인 조회 및 제어에 집중
+         */
+        return userRepository.findAllWithHistories()
+            .map(UserLoanHistoryResponse::of)
     }
-
 }
