@@ -23,6 +23,7 @@ class UserServiceTest @Autowired constructor(
 
     @AfterEach
     fun clean() {
+        println("CLEAN 시작")
         userRepository.deleteAll()
     }
 
@@ -118,7 +119,7 @@ class UserServiceTest @Autowired constructor(
         assertThat(results[0].books).isEmpty()
     }
 
-    @DisplayName("대출 기록이 없는 유저도 응답에 포함된다")
+    @DisplayName("대출 기록이 많은 유저의 응답이 정상 동작한다")
     @Test
     fun get_user_loan_histories() {
         // given
