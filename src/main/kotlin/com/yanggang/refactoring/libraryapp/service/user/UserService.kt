@@ -2,12 +2,14 @@ package com.yanggang.refactoring.libraryapp.service.user
 
 import com.yanggang.refactoring.libraryapp.domain.user.User
 import com.yanggang.refactoring.libraryapp.domain.user.UserRepository
+import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanStatus
 import com.yanggang.refactoring.libraryapp.dto.user.request.UserCreateRequest
 import com.yanggang.refactoring.libraryapp.dto.user.request.UserUpdateRequest
+import com.yanggang.refactoring.libraryapp.dto.user.response.BookHistoryResponse
+import com.yanggang.refactoring.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.yanggang.refactoring.libraryapp.dto.user.response.UserResponse
 import com.yanggang.refactoring.libraryapp.util.fail
 import com.yanggang.refactoring.libraryapp.util.findByIdOrThrow
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -53,4 +55,20 @@ class UserService(
         val user = userRepository.findByName(name) ?: fail()
         userRepository.delete(user)
     }
+
+    @Transactional(readOnly = true)
+    fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
+        return userRepository.findAll().map { user ->
+            UserLoanHistoryResponse(
+                name = user.name,
+                books = user.userLoanHistories.map { history ->
+                    BookHistoryResponse(
+                        name = history.bookName,
+                        isReturn = history.status == UserLoanStatus.RETURNED
+                    )
+                }
+            )
+        }
+    }
+
 }
