@@ -4,6 +4,7 @@ import com.yanggang.refactoring.libraryapp.domain.book.Book
 import com.yanggang.refactoring.libraryapp.domain.book.BookRepository
 import com.yanggang.refactoring.libraryapp.domain.user.UserRepository
 import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository
+import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanStatus
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookLoanRequest
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookRequest
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookReturnRequest
@@ -29,7 +30,7 @@ class BookService(
     fun loanBook(request: BookLoanRequest) {
         val book  = bookRepository.findByName(request.bookName) ?: fail()
 
-        if (userLoanHistoryRepository.findByBookNameAndIsReturn(request.bookName, false) != null) {
+        if (userLoanHistoryRepository.findByBookNameAndStatus(request.bookName, UserLoanStatus.LOANED) != null) {
             throw IllegalArgumentException("이미 대출되어 있는 책입니다")
         }
 
