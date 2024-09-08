@@ -1,5 +1,6 @@
 package com.yanggang.refactoring.libraryapp.dto.user.response
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.yanggang.refactoring.libraryapp.domain.user.User
 import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanHistory
 
@@ -20,6 +21,7 @@ data class UserLoanHistoryResponse(
 
 data class BookHistoryResponse(
     val name: String, // 책 이름
+    @get:JsonProperty("isReturn")
     val isReturn: Boolean,
 ) {
     companion object {
