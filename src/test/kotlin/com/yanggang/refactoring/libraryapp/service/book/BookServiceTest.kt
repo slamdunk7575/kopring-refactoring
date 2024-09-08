@@ -11,6 +11,7 @@ import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanStatu
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookLoanRequest
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookRequest
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookReturnRequest
+import com.yanggang.refactoring.libraryapp.dto.book.response.BookStatResponse
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
@@ -116,5 +117,45 @@ class BookServiceTest @Autowired constructor(
         val results = userLoanHistoryRepository.findAll()
         assertThat(results).hasSize(1)
         assertThat(results[0].status).isEqualTo(UserLoanStatus.RETURNED)
+    }
+
+    @DisplayName("대출중인 책의 권수를 확인한다.")
+    @Test
+    fun count_loaned_book() {
+        // given
+        val savedUser = userRepository.save(User("slamdunk7575", 100))
+        userLoanHistoryRepository.saveAll(listOf(
+            UserLoanHistory.fixture(savedUser, "책1"),
+            UserLoanHistory.fixture(savedUser, "책1", UserLoanStatus.RETURNED),
+            UserLoanHistory.fixture(savedUser, "책1", UserLoanStatus.RETURNED),
+        ))
+
+        // when
+        val loanedBookCount = bookService.countLoanedBook()
+
+        // then
+        assertThat(loanedBookCount).isEqualTo(1)
+    }
+
+    @DisplayName("카테고리별 책 권수를 정상 확인한다.")
+    @Test
+    fun get_Book_statistics() {
+        // given
+        bookRepository.saveAll(listOf(
+            Book.fixture("책 1", BookType.COMPUTER),
+            Book.fixture("책 2", BookType.COMPUTER),
+            Book.fixture("책 3", BookType.SCIENCE),
+        ))
+
+        // when
+        val bookStatistics = bookService.getBookStatistics()
+
+        // then
+        assertCount(bookStatistics, BookType.COMPUTER, 2)
+        assertCount(bookStatistics, BookType.SCIENCE, 1)
+    }
+
+    private fun assertCount(results: List<BookStatResponse>, type: BookType, count: Int) {
+        assertThat(results.first { dto -> dto.type == type }.count).isEqualTo(count)
     }
 }

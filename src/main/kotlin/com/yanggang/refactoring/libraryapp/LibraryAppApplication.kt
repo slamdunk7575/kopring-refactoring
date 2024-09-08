@@ -1,9 +1,7 @@
 package com.yanggang.refactoring.libraryapp
 
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.context.ConfigurableApplicationContext
 
 // 코틀린은 탑라인에 여러 클래스와 함수를 만들수 있음
 // 함수를 만드는 경우 static 함수로 생성됨

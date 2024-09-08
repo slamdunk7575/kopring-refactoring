@@ -8,6 +8,7 @@ import com.yanggang.refactoring.libraryapp.domain.user.loanhistory.UserLoanStatu
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookLoanRequest
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookRequest
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookReturnRequest
+import com.yanggang.refactoring.libraryapp.dto.book.response.BookStatResponse
 import com.yanggang.refactoring.libraryapp.util.fail
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -42,5 +43,22 @@ class BookService(
     fun returnBook(request: BookReturnRequest) {
         val user = userRepository.findByName(request.userName) ?: fail()
         user.returnBook(request.bookName)
+    }
+
+    @Transactional(readOnly = true)
+    fun countLoanedBook(): Int {
+        return userLoanHistoryRepository.findAllByStatus(UserLoanStatus.LOANED).size
+    }
+
+    @Transactional(readOnly = false)
+    fun getBookStatistics(): List<BookStatResponse> {
+        val results = mutableListOf<BookStatResponse>()
+        val books = bookRepository.findAll()
+        for (book in books) {
+            results.firstOrNull { dto -> book.type == dto.type }?.plusOneCount()
+                ?: results.add(BookStatResponse(book.type, 1))
+        }
+
+        return results
     }
 }
