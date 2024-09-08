@@ -52,13 +52,20 @@ class BookService(
 
     @Transactional(readOnly = false)
     fun getBookStatistics(): List<BookStatResponse> {
+        return bookRepository.findAll()
+            .groupBy { book -> book.type }
+            .map { (type, books) -> BookStatResponse(type, books.size) }
+
+        /*
+        // 문제점1: 가변 리스트가 있다 (즉, 이 리스트가 변경될 수 있다 -> 코드를 처음본 사람이 수정했을때 실수를 만들 수 있다)
         val results = mutableListOf<BookStatResponse>()
         val books = bookRepository.findAll()
         for (book in books) {
+            // 문제점2: 콜체인이 긴 코드는 코드를 이해하고 유지보수 하는데 어렵다
             results.firstOrNull { dto -> book.type == dto.type }?.plusOneCount()
                 ?: results.add(BookStatResponse(book.type, 1))
         }
-
         return results
+        */
     }
 }
