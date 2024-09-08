@@ -9,6 +9,7 @@ import com.yanggang.refactoring.libraryapp.dto.book.request.BookLoanRequest
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookRequest
 import com.yanggang.refactoring.libraryapp.dto.book.request.BookReturnRequest
 import com.yanggang.refactoring.libraryapp.dto.book.response.BookStatResponse
+import com.yanggang.refactoring.libraryapp.repository.book.BookQueryDslRepository
 import com.yanggang.refactoring.libraryapp.util.fail
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +19,7 @@ class BookService(
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository,
-
+    private val bookQueryDslRepository: BookQueryDslRepository,
 ) {
 
     @Transactional
@@ -62,7 +63,7 @@ class BookService(
         대용량 통계 처리 배치를 이용한 구조
         이벤트 발행과 메시징 큐를 이용한 구조
         */
-        return bookRepository.getStats()
+        return bookQueryDslRepository.getStats()
 
         /* 문제점: 전체 데이터를 모두 메모리로 가져와서 groupBy 수행
         return bookRepository.findAll()
