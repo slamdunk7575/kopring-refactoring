@@ -42,7 +42,7 @@ class BookServiceTest @Autowired constructor(
         val bookRequest = BookRequest("코틀린 인 액션", BookType.COMPUTER)
 
         // when
-        val savedBook = bookService.saveBook(bookRequest)
+        bookService.saveBook(bookRequest)
 
         // then
         val books = bookRepository.findAll()
