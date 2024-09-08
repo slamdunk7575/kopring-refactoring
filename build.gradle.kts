@@ -2,7 +2,18 @@ plugins {
     id("org.springframework.boot") version "3.3.3"
     id("io.spring.dependency-management") version "1.1.6"
     kotlin("jvm") version "1.9.25"
+
+    /* kotlin("plugin.spring") 역할
+    @Component, @Transaction 등 이 붙은 클래스나 함수를 open 해줌 -> 클래스를 상속 가능, 함수를 오버라이드 가능하게함
+    Q. 왜 open 을 해줘야 할까?
+    -> 예: 함수에 @Transaction 붙어 있다면, 해당 클래스를 상속받은 프록시 객체에서 해당 함수를 오버라이드 하여 트랜잭션이 적용되기 때문에
+    */
     kotlin("plugin.spring") version "1.9.25"
+
+    /* kotlin("plugin.jpa") 역할
+    @Entity, @MappedSuperclass, @Embedded 객체에 기본 생성자를 자동으로 만들어줌
+    -> 리플렉션을 활용해서 객체를 인스턴스화 할때 기본 생성자가 필요하기 때문에
+    */
     kotlin("plugin.jpa") version "1.9.25"
     kotlin("kapt") version "1.9.25"
 }
