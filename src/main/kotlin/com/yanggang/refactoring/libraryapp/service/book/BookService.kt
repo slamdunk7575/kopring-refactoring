@@ -47,14 +47,28 @@ class BookService(
 
     @Transactional(readOnly = true)
     fun countLoanedBook(): Int {
-        return userLoanHistoryRepository.findAllByStatus(UserLoanStatus.LOANED).size
+        // DB 및 네트워크, 애플리케이션에 부하가 덜 들도록 쿼리로 조회
+        return userLoanHistoryRepository.countAllByStatus(UserLoanStatus.LOANED).toInt()
     }
 
     @Transactional(readOnly = false)
     fun getBookStatistics(): List<BookStatResponse> {
+        /*
+        네트워크, 애플리케이션에 부하를 덜 주고 index 를 이용해 튜닝할 여지도 있기 때문에 쿼리로 조회
+
+        (정리)
+        데이터양, 트래픽, 요구사항 등에 따라 또 다른 방법을 사용해야 할 수도 있다
+        예를들면,
+        대용량 통계 처리 배치를 이용한 구조
+        이벤트 발행과 메시징 큐를 이용한 구조
+        */
+        return bookRepository.getStats()
+
+        /* 문제점: 전체 데이터를 모두 메모리로 가져와서 groupBy 수행
         return bookRepository.findAll()
             .groupBy { book -> book.type }
             .map { (type, books) -> BookStatResponse(type, books.size) }
+        */
 
         /*
         // 문제점1: 가변 리스트가 있다 (즉, 이 리스트가 변경될 수 있다 -> 코드를 처음본 사람이 수정했을때 실수를 만들 수 있다)
