@@ -39,7 +39,7 @@ class User(
        -> setter 를 열어두지만 사용하지 않는 방법 (Trade-Off 영역, 팀내 컨벤션 맞추기)
 
        (참고)
-       Spring, JPA 와 같이 사용시 Proxy 사용을 위해 gradle 설정에 kotlin-allopen 을 사용하게 되는데
+       Spring, JPA 와 같이 사용시 Proxy 사용을 위해 gradle 설정에 kotlin-allopen 을 사용하게 되는데 -> kotlin("plugin.spring") 설정에 포함됨
        이때 open 으로 두게 되면 var 변수에 대해서는 setter를 하위 클래스에서 override 할 수 있어야 하기 때문에
        private set을 만들 수 없다
        -> 우회책으로 접근 지시어 수준을 protected 로 변경하는 방법이 있다
