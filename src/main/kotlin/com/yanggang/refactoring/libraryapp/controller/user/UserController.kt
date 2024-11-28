@@ -43,8 +43,8 @@ class UserController(
         /*
         코틀린 @RequestParam 의 required 속성은 기본값이 true 인데 아래처럼 String? 으로 선언하면
         null 이 들어올 수 있기 때문에 required 속성이 false 로 바뀜
-        fun deleteUser(@RequestParam name: String?) {
-         */
+        예: fun deleteUser(@RequestParam name: String?) {
+        */
         userService.deleteUser(name)
     }
 
