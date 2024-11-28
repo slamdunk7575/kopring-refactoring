@@ -44,6 +44,7 @@ class UserService(
          Optional<T> findById(ID id); 의 Optional 반환을 제어
          코틀린의 확장함수 사용 -> Spring은 코틀린과 CurdRepository 를 같이 사용할 것을 대비해서
          CrudRepositoryExtensions 이라는 확장함수를 미리 만들어놓음
+         fun <T, ID> CrudRepository<T, ID>.findByIdOrNull(id: ID): T? = findById(id!!).orElse(null)
          */
         val user = userRepository.findByIdOrThrow(request.id)
         user.updateName(request.name)

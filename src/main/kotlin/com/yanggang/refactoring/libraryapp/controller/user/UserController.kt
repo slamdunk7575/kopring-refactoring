@@ -28,11 +28,10 @@ class UserController(
         return userService.getUsers()
     }
 
-    /* 코틀린은 아래처럼 작성 가능
+    /* 코틀린은 아래처럼도 작성 가능
     @GetMapping("/user")
     fun getUsers(): List<UserResponse> = userService.getUsers()
     */
-
 
     @PutMapping("/user")
     fun updateUserName(@RequestBody request: UserUpdateRequest) {
