@@ -5,7 +5,7 @@ data class UserCreateRequest(
     val age: Int?,
 )
 
-/* 자바 코드에서 Lombok이 생상선 코드(예: getter) 를 코틀린에서 사용할 수 없어 직접 추가
+/* 자바 코드에서 Lombok이 생성한 코드(예: getter) 를 코틀린에서 사용할 수 없어 직접 추가
 
     자바 코드와 코틀린 코드의 빌드 과정
     1. 코틀린 컴파일러가 코틀린 코드를 컴파일해 .class 파일 생성
